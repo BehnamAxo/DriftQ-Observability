@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  prometheus:
+    image: prom/prometheus:v2.54.1
+    container_name: driftq-prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/rules:/etc/prometheus/rules:ro
+  grafana:
+    image: grafana/grafana:10.4.2
+    container_name: driftq-grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+  otel-collector:
+    image: otel/opentelemetry-collector:0.99.0
+    container_name: driftq-otel
+    restart: unless-stopped
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    ports:
+      - "4317:4317" # OTLP gRPC
+      - "4318:4318" # OTLP HTTP
+    volumes:
+      - ./otel-collector/config.yaml:/etc/otel-collector-config.yaml:ro

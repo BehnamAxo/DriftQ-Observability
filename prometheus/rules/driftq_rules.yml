@@ -1,0 +1,29 @@
+groups:
+  - name: driftq-alerts
+    rules:
+      - alert: DriftQBrokerDown
+        expr: up{job="driftqd"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "DriftQ broker is down"
+          description: "Prometheus cannot scrape the broker metrics endpoint."
+
+      - alert: DriftQHighLag
+        expr: max(driftq_partition_lag) > 10000
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High partition lag on DriftQ"
+          description: "Some partitions are lagging >10k messages."
+
+      - alert: DriftQHighConsumerLatency
+        expr: max(driftq_consumer_latency_ms) > 5000
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High consumer latency on DriftQ"
+          description: "p99 consumer latency over 5s."

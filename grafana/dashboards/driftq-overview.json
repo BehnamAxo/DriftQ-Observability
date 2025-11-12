@@ -1,0 +1,106 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "graphTooltip": 0,
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "Ingest Rate (msgs/s)",
+      "targets": [
+        {
+          "expr": "rate(driftq_messages_in_total[1m])",
+          "legendFormat": "in"
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Egress Rate (msgs/s)",
+      "targets": [
+        {
+          "expr": "rate(driftq_messages_out_total[1m])",
+          "legendFormat": "out"
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Partition Lag (max)",
+      "targets": [
+        {
+          "expr": "max(driftq_partition_lag)",
+          "legendFormat": "max lag"
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Consumer p99 Latency (ms)",
+      "targets": [
+        {
+          "expr": "max(driftq_consumer_latency_ms)",
+          "legendFormat": "p99"
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      }
+    }
+  ],
+  "schemaVersion": 38,
+  "refresh": "10s",
+  "title": "DriftQ Overview",
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
+  "uid": "driftq-overview",
+  "version": 1
+}
